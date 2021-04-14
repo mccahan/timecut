@@ -194,6 +194,16 @@ module.exports = function (config) {
     };
   }
 
+  // If the process receives a SIGINT signal (e.g. from ctrl+c) and
+  // hasn't set --keep-frames, clean up the temp files before exiting
+  if (!pipeMode && !config.keepFrames) {
+    process.on('SIGINT', function () {
+      log('Cleaning up temp files and exiting');
+      deleteFolder(frameDirectory);
+      process.exit();
+    });
+  }
+
   var overallError;
   return timesnap(timesnapConfig)
     .then(function () {
