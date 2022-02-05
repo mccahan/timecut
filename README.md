@@ -99,12 +99,12 @@ Opens `drawing.html` in the current working directory, crops each frame to the b
 
 **<a name="cli-example-offsets" href="#cli-example-offsets">#</a> Using offsets**:
 ```
-timecut "https://tungs.github.io/truchet-tiles-original/#autoplay=true&switchStyle=random" \ 
+timecut "https://tungs.github.io/amuse/truchet-tiles/#autoplay=true&switchStyle=random" \ 
   -S "#container" \ 
   --left=20 --top=40 --right=6 --bottom=30 \
   --duration=20
 ```
-Opens https://tungs.github.io/truchet-tiles-original/#autoplay=true&switchStyle=random (note the quotes in the url and selector are necessary because of the `#` and `&`). Crops each frame to the `#container` element, with an additional crop of 20px, 40px, 6px, and 30px for the left, top, right, and bottom, respectively. Captures frames for 20 virtual seconds at 60fps to `video.mp4` in the current working directory.
+Opens https://tungs.github.io/amuse/truchet-tiles/#autoplay=true&switchStyle=random (note the quotes in the url and selector are necessary because of the `#` and `&`). Crops each frame to the `#container` element, with an additional crop of 20px, 40px, 6px, and 30px for the left, top, right, and bottom, respectively. Captures frames for 20 virtual seconds at 60fps to `video.mp4` in the current working directory.
 
 ### <a name="cli-options" href="#cli-options">#</a> Command Line *options*
 * <a name="cli-options-output" href="#cli-options-output">#</a> Output: `-O`, `--output` *name*
@@ -173,6 +173,8 @@ Opens https://tungs.github.io/truchet-tiles-original/#autoplay=true&switchStyle=
     * Doesn't delete frames after processing them. Doesn't do anything in pipe mode.
 * <a name="cli-options-quiet" href="#cli-options-quiet">#</a> Quiet: `-q`, `--quiet`
     * Suppresses console logging.
+* <a name="cli-options-stop-function-name" href="#cli-options-stop-function-name">#</a> Stop Function Name: `--stop-function-name` *function name*
+    * Creates a function with *function name* that the client web page can call to stop capturing. For instance, `--stop-function-name=stopCapture` could be called in the client, via `stopCapture()`.
 * <a name="cli-options-version" href="#cli-options-version">#</a> Version: `-v`, `--version`
     * Displays version information. Immediately exits.
 * <a name="cli-options-help" href="#cli-options-help">#</a> Help: `-h`, `--help`
@@ -192,7 +194,7 @@ npm install timecut --save
 ```node
 const timecut = require('timecut');
 timecut({
-  url: 'https://tungs.github.io/truchet-tiles-original/#autoplay=true&switchStyle=random',
+  url: 'https://tungs.github.io/amuse/truchet-tiles/#autoplay=true&switchStyle=random',
   viewport: {
     width: 800,               // sets the viewport (window size) to 800x600
     height: 600
@@ -213,7 +215,7 @@ timecut({
 const timecut = require('timecut');
 var pages = [
   {
-    url: 'https://tungs.github.io/truchet-tiles-original/#autoplay=true',
+    url: 'https://tungs.github.io/amuse/truchet-tiles/#autoplay=true',
     output: 'truchet-tiles.mp4',
     selector: '#container'
   }, {
@@ -287,6 +289,7 @@ The Node API is structured similarly to the command line options, but there are 
     * <a name="js-config-quiet" href="#js-config-quiet">#</a> `quiet` &lt;[boolean][]&gt; Suppresses console logging.
     * <a name="js-config-logger" href="#js-config-logger">#</a> `logger` &lt;[function][](...[Object][])&gt; Replaces console logging with a particular function. The passed arguments are the same as those to `console.log` (in this case, usually one string).
     * <a name="js-config-log-to-std-err" href="#js-config-log-to-std-err">#</a> `logToStdErr` &lt;[boolean][]&gt; Logs to stderr instead of stdout. Doesn't do anything if `config.quiet` is set to true.
+    * <a name="js-config-stop-function-name" href="#js-config-stop-function-name">#</a> `stopFunctionName` &lt;[string][]&gt; *function name* that the client web page can call to stop capturing. For instance, `'stopCapture'` could be called in the client, via `stopCapture()`.
     * <a name="js-config-navigate-page-to-url" href="#js-config-navigate-page-to-url">#</a> `navigatePageToURL` &lt;[function][]([Object][])&gt; A function that navigates a puppeteer page to a URL, overriding the default navigation to a URL. The function should return a promise that resolves once the page is finished navigating. The function is passed the following object:
         * <a name="js-config-navigate-page-to-url-page" href="#js-config-navigate-page-to-url-page">#</a> `page` &lt;[Page][]&gt; the puppeteer page
         * <a name="js-config-navigate-page-to-url-url" href="#js-config-navigate-page-to-url-url">#</a> `url` &lt;[string][]&gt; the url to navigate to
@@ -295,7 +298,7 @@ The Node API is structured similarly to the command line options, but there are 
     * <a name="js-config-prepare-page-for-screenshot" href="#js-config-prepare-page-for-screenshot">#</a> `preparePageForScreenshot` &lt;[function][]([Page][], [number][], [number][])&gt; A setup function that will be called before each screenshot. If it returns a promise, capture will be paused until the promise resolves.
         * `page` &lt;[Page][]&gt; The puppeteer instance of the page being captured.
         * `frameNumber` &lt;[number][]&gt; The current frame number (1 based).
-        * `totalFrames` &lt;[number][]&gt; The total number of frames.             
+        * `totalFrames` &lt;[number][]&gt; The total number of frames.
     * <a name="js-config-output-stream" href="#js-config-output-stream">#</a> `outputStream` &lt;[stream][]()&gt; A node stream to write data to from ffmpeg
     * <a name="js-config-output-stream-options" href="#js-config-output-stream-options">#</a> `outputStreamOptions` &lt;[Object][]&gt; Optional configuration object when using [`config.outputStream`](#js-config-output-stream)
         * <a name="js-config-output-stream-options-format" href="#js-config-output-stream-options-format">#</a> `format` &lt;[string][]&gt; Format of piped output. Defaults to `'mp4'` if undefined.

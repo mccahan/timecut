@@ -3,7 +3,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (c) 2018-2021, Steve Tung
+ * Copyright (c) 2018-2022, Steve Tung
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,6 +103,7 @@ commander
     // TODO: make a more sophisticated parser for options that can handle quote marks
     return str.split(' ');
   })
+  .option('--stop-function-name <function name>', 'Allows client page to call function name to stop capture')
   .option('--no-headless', 'Chromium/Chrome runs in a window instead of headless mode')
   .option('--screenshot-type <type>', 'Output image format for screenshots, either png or jpeg')
   .option('--screenshot-quality <level>', 'The quality level for lossy screenshots', parseFloat)
